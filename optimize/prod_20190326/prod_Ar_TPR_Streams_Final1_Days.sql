@@ -26,4 +26,4 @@ JOIN
   `umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_Results2` s
 ON
   f.stream_date=s.stream_date
-  AND f.source_uri = s.source_uri
+  AND REGEXP_EXTRACT(f.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(s.source_uri,r'playlist:(.*)')

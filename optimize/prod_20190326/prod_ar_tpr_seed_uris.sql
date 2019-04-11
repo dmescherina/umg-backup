@@ -12,7 +12,7 @@ ON
 LEFT OUTER JOIN
   `umg-comm-tech-dev.Optimize.ar_apollo_uri_lkup` s
 ON
-  d.playlist_uri = s.uri
+  REGEXP_EXTRACT(d.playlist_uri,r'playlist:(.*)') = REGEXP_EXTRACT(s.uri,r'playlist:(.*)')
 WHERE
   (d.playlist_owner LIKE 'el_list%'
     OR p.majortype = 'UMG'

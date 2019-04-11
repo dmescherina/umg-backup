@@ -122,7 +122,7 @@ ON
 LEFT JOIN
   `umg-partner.spotify.playlist_history` pd
 ON
-  pd.playlist_uri = d.playlist_uri
+  pd.playlist_id = REGEXP_EXTRACT(d.playlist_uri,r'playlist:(.*)')
   AND f.stream_date= CAST(pd._PARTITIONTIME AS date)
 LEFT JOIN
   `umg-comm-tech-dev.Optimize.ar_apollo_owner_lkup` p

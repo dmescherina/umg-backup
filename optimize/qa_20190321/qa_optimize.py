@@ -44,7 +44,7 @@ default_args = {
 
 
 dag = DAG('Pitched_optimize',
-  description = 'PROD version of PITCHED Optimize data creation',
+  description = 'QA version of PITCHED Optimize data creation',
   schedule_interval='0 7 * * *',
   max_active_runs=1,
   default_args=default_args)
@@ -73,7 +73,7 @@ load_to_uri_bq = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
     task_id='load_to_uri_bq',
     bucket='umg-comm-tech-dev',
     source_objects=['qubole/user-data/alan/apollo/lookups/uris/umg_ba.ar_apollo_uri_lkup'],
-    destination_project_dataset_table='umg-comm-tech-dev.Optimize.ar_apollo_uri_lkup',
+    destination_project_dataset_table='umg-comm-tech-dev.optimize_qa.ar_apollo_uri_lkup',
     schema_fields=[
   {
     "description": "playlist Uri",
@@ -95,7 +95,7 @@ load_to_owner_bq = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
     task_id='load_to_owner_bq',
     bucket='umg-comm-tech-dev',
     source_objects=['qubole/user-data/alan/apollo/lookups/owners/Spotify_Owner_Lookup.csv'],
-    destination_project_dataset_table='umg-comm-tech-dev.Optimize.ar_apollo_owner_lkup',
+    destination_project_dataset_table='umg-comm-tech-dev.optimize_qa.ar_apollo_owner_lkup',
     schema_fields=[
   {
     "description": "owner id",
@@ -186,9 +186,9 @@ bq_1 = BigQueryOperator(
   task_id='ar_tpr_seed_uris',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_ar_tpr_seed_uris.sql',
+  bql='/sql/qa_ar_tpr_seed_uris.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.ar_tpr_seed_uris',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.ar_tpr_seed_uris',
   dag = dag
     )
 
@@ -198,9 +198,9 @@ bq_2 = BigQueryOperator(
   task_id='ar_tpe_playlistclusters_base',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_ar_tpe_playlistclusters_base.sql',
+  bql='/sql/qa_ar_tpe_playlistclusters_base.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.ar_tpe_playlistclusters_base',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.ar_tpe_playlistclusters_base',
   dag = dag
 
    )
@@ -214,9 +214,9 @@ bq_3 = BigQueryOperator(
   task_id='ar_tpe_playlistclusters_base_perc',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_ar_tpe_playlistclusters_base_perc.sql',
+  bql='/sql/qa_ar_tpe_playlistclusters_base_perc.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.ar_tpe_playlistclusters_base_perc',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.ar_tpe_playlistclusters_base_perc',
   dag = dag
     )
 
@@ -229,9 +229,9 @@ bq_4 = BigQueryOperator(
   task_id='AR_TPR_TrackSkipLkup',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_TrackSkipLkup.sql',
+  bql='/sql/qa_AR_TPR_TrackSkipLkup.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_TrackSkipLkup',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_TrackSkipLkup',
   dag = dag
     )
 
@@ -251,9 +251,9 @@ bq_5 = BigQueryOperator(
   task_id='AR_TPR_StreamExport',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_StreamExport.sql',
+  bql='/sql/qa_AR_TPR_StreamExport.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_StreamExport',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_StreamExport',
   dag = dag
     )
 
@@ -266,9 +266,9 @@ bq_6 = BigQueryOperator(
   task_id='AR_TPR_UserDiscCol',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_UserDiscCol.sql',
+  bql='/sql/qa_AR_TPR_UserDiscCol.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_UserDiscCol',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_UserDiscCol',
   dag = dag
     )
 
@@ -281,9 +281,9 @@ bq_7 = BigQueryOperator(
   task_id='AR_TPR_UserReturning',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_UserReturning.sql',
+  bql='/sql/qa_AR_TPR_UserReturning.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_UserReturning',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_UserReturning',
   dag = dag
     )
 
@@ -297,9 +297,9 @@ bq_8 = BigQueryOperator(
   task_id='AR_TPR_StreamBuild1a',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_StreamBuild1a.sql',
+  bql='/sql/qa_AR_TPR_StreamBuild1a.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_StreamBuild1a',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_StreamBuild1a',
   dag = dag
     )
 
@@ -313,9 +313,9 @@ AR_TPR_StreamBuild1b = BigQueryOperator(
   task_id='AR_TPR_StreamBuild1b',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_StreamBuild1b.sql',
+  bql='/sql/qa_AR_TPR_StreamBuild1b.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_StreamBuild1b',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_StreamBuild1b',
   dag = dag
     )
 
@@ -327,9 +327,9 @@ bq_9 = BigQueryOperator(
   task_id='AR_TPR_StreamBuild3',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_StreamBuild3.sql',
+  bql='/sql/qa_AR_TPR_StreamBuild3.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_StreamBuild3',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_StreamBuild3',
   dag = dag
     )
 
@@ -341,9 +341,9 @@ bq_10 = BigQueryOperator(
   task_id='AR_TPR_StreamBuild3b',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_StreamBuild3b.sql',
+  bql='/sql/qa_AR_TPR_StreamBuild3b.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_StreamBuild3b',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_StreamBuild3b',
   dag = dag
     )
 
@@ -356,9 +356,9 @@ bq_11 = BigQueryOperator(
   task_id='AR_TPR_HeadTail_Build2',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_TPR_HeadTail_Build2.sql',
+  bql='/sql/qa_AR_TPR_HeadTail_Build2.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_TPR_HeadTail_Build2',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_TPR_HeadTail_Build2',
   dag = dag
     )
 
@@ -370,9 +370,9 @@ bq_12 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_mean_estimates',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_mean_estimates.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_mean_estimates.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_mean_estimates',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_mean_estimates',
   dag = dag
     )
 
@@ -386,9 +386,9 @@ bq_13 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_stdev_estimates',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_stdev_estimates.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_stdev_estimates.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_stdev_estimates',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_stdev_estimates',
   dag = dag
     )
 
@@ -401,9 +401,9 @@ bq_14 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_standardized_data',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_standardized_data.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_standardized_data.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_standardized_data',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_standardized_data',
   dag = dag
     )
 
@@ -416,9 +416,9 @@ bq_15 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_standardized_beta_estimates',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_standardized_beta_estimates.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_standardized_beta_estimates.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_standardized_beta_estimates',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_standardized_beta_estimates',
   dag = dag
     )
 
@@ -431,9 +431,9 @@ bq_16 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_Slope',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_Slope.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_Slope.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_Slope',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_Slope',
   dag = dag
     )
 
@@ -449,9 +449,9 @@ bq_17 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_find',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_find.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_find.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_find',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_find',
   dag = dag
     )
 
@@ -463,9 +463,9 @@ bq_18 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_Results1',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_Results1.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_Results1.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_Results1',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_Results1',
   dag = dag
     )
 
@@ -478,9 +478,9 @@ bq_19 = BigQueryOperator(
   task_id='Ar_TPR_HeadTail_Results2',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_HeadTail_Results2.sql',
+  bql='/sql/qa_Ar_TPR_HeadTail_Results2.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_Results2',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_HeadTail_Results2',
   dag = dag
     )
 
@@ -496,9 +496,9 @@ bq_20 = BigQueryOperator(
   task_id='Ar_TPR_Streams_Final1_Days',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_Streams_Final1_Days.sql',
+  bql='/sql/qa_Ar_TPR_Streams_Final1_Days.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_Streams_Final1_Days',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_Streams_Final1_Days',
   dag = dag
     )
 
@@ -518,9 +518,9 @@ bq_21 = BigQueryOperator(
   task_id='Ar_TPR_Streams_Final1_Days_Stats',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_Streams_Final1_Days_Stats.sql',
+  bql='/sql/qa_Ar_TPR_Streams_Final1_Days_Stats.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_Streams_Final1_Days_Stats',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_Streams_Final1_Days_Stats',
   dag = dag
     )
 
@@ -540,9 +540,9 @@ bq_22 = BigQueryOperator(
   task_id='Ar_TPR_Streams_Final1_Days_stats2',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_Streams_Final1_Days_stats2.sql',
+  bql='/sql/qa_Ar_TPR_Streams_Final1_Days_stats2.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_Streams_Final1_Days_stats2',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_Streams_Final1_Days_stats2',
   dag = dag
     )
 
@@ -557,9 +557,9 @@ bq_23 = BigQueryOperator(
   task_id='Ar_TPR_Streams_Final1_Days_stats2_Bench',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_Ar_TPR_Streams_Final1_Days_stats2_Bench.sql',
+  bql='/sql/qa_Ar_TPR_Streams_Final1_Days_stats2_Bench.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.Ar_TPR_Streams_Final1_Days_stats2_Bench',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.Ar_TPR_Streams_Final1_Days_stats2_Bench',
   dag = dag
     )
 
@@ -572,9 +572,9 @@ bq_24 = BigQueryOperator(
   task_id='ar_tpr_final_data_store',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_ar_tpr_final_data_store.sql',
+  bql='/sql/qa_ar_tpr_final_data_store.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.ar_tpr_final_data_store',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.ar_tpr_final_data_store',
   dag = dag
     )
 
@@ -609,9 +609,9 @@ bq_25 = BigQueryOperator(
   task_id='AR_APOLLO_DATA_load',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_APOLLO_DATA_load.sql',
+  bql='/sql/qa_AR_APOLLO_DATA_load.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_APOLLO_DATA_load',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_APOLLO_DATA_load',
   dag = dag
     )
 
@@ -625,9 +625,9 @@ bq_26 = BigQueryOperator(
   task_id='AR_APOLLO_DATA_prod',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_APOLLO_DATA_prod.sql',
+  bql='/sql/qa_AR_APOLLO_DATA_prod.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_APOLLO_DATA_prod',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_APOLLO_DATA_prod',
   dag = dag
     )
 
@@ -640,9 +640,9 @@ AR_APOLLO_DATA_load_comp = BigQueryOperator(
   task_id='AR_APOLLO_DATA_load_comp',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_APOLLO_DATA_load_comp.sql',
+  bql='/sql/qa_AR_APOLLO_DATA_load_comp.sql',
 write_disposition='WRITE_TRUNCATE',
-destination_dataset_table = 'umg-comm-tech-dev.Optimize.AR_APOLLO_DATA_load_comp',
+destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.AR_APOLLO_DATA_load_comp',
 dag=dag
 
 )
@@ -655,9 +655,9 @@ AR_APOLLO_DATA_prod_non_umg  = BigQueryOperator(
   task_id='AR_APOLLO_DATA_prod_non_umg',
   use_legacy_sql=False,
   allow_large_results=True,
-  bql='/sql/prod_AR_APOLLO_DATA_prod_non_umg.sql',
+  bql='/sql/qa_AR_APOLLO_DATA_prod_non_umg.sql',
   write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.Optimize.non_umg_tracks_prod',
+  destination_dataset_table = 'umg-comm-tech-dev.optimize_qa.non_umg_tracks_prod',
   dag = dag
     )
 
@@ -668,8 +668,8 @@ AR_APOLLO_DATA_prod_non_umg  = BigQueryOperator(
 
 export_to_gcs = bigquery_to_gcs.BigQueryToCloudStorageOperator(
     task_id='export_to_gcs',
-    source_project_dataset_table='umg-comm-tech-dev.Optimize.AR_APOLLO_DATA_prod',
-    destination_cloud_storage_uris=['gs://umg-comm-tech-dev/data/apollo/prod/date_id={{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}/apollo_export_{{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}.csv'],
+    source_project_dataset_table='umg-comm-tech-dev.optimize_qa.AR_APOLLO_DATA_prod',
+    destination_cloud_storage_uris=['gs://umg-comm-tech-dev/data/apollo/QA/date_id={{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}/apollo_export_{{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}.csv'],
     export_format='CSV',
     field_delimiter='\t',
     print_header=False,
@@ -683,8 +683,8 @@ exports output from 'AR_APOLLO_DATA_prod_non_umg to GCS bucket
 
 export_to_gcs_non_umg = bigquery_to_gcs.BigQueryToCloudStorageOperator(
     task_id='export_to_gcs_non_umg',
-    source_project_dataset_table='umg-comm-tech-dev.Optimize.non_umg_tracks_prod',
-    destination_cloud_storage_uris=['gs://umg-comm-tech-dev/data/apollo/prod/date_id={{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}/apollo_export_non_umg_{{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}.csv'],
+    source_project_dataset_table='umg-comm-tech-dev.optimize_qa.non_umg_tracks_prod',
+    destination_cloud_storage_uris=['gs://umg-comm-tech-dev/data/apollo/QA/date_id={{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}/apollo_export_non_umg_{{ macros.ds_format(macros.ds_add( ds, -1), \'%Y-%m-%d\', \'%Y%m%d\') }}.csv'],
     export_format='CSV',
     field_delimiter='\t',
     print_header=False,
@@ -699,8 +699,8 @@ downloads prod umg file from GCS to worker
 download_from_gcs = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     task_id='download_from_gcs',
     bucket='umg-comm-tech-dev',
-    object= 'data/apollo/prod/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
-    filename='/home/airflow/gcs/data/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
+    object= 'data/apollo/QA/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
+    filename='/home/airflow/gcs/data/qa_apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
     bigquery_conn_id='google_cloud_storage_default',
     dag=dag
 
@@ -713,8 +713,8 @@ downloads non-umg file from GCS to worker
 download_from_gcs_non_umg = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     task_id='download_from_gcs_non_umg',
     bucket='umg-comm-tech-dev',
-    object='data/apollo/prod/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
-    filename='/home/airflow/gcs/data/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
+    object='data/apollo/QA/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
+    filename='/home/airflow/gcs/data/qa_apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv',
     bigquery_conn_id='google_cloud_storage_default',
     dag=dag
 
@@ -726,7 +726,7 @@ runs a python script to fill nulls for umg prod file
 
 fill_nulls = BashOperator(
         task_id ='fill_nulls',
-        bash_command='python /home/airflow/gcs/dags/app/prod_fill_na.py /home/airflow/gcs/data/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv /home/airflow/gcs/data/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}' ,
+        bash_command='python /home/airflow/gcs/dags/app/qa_fill_na.py /home/airflow/gcs/data/qa_apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv /home/airflow/gcs/data/qa_apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}' ,
         dag=dag
   )
 
@@ -736,7 +736,7 @@ runs a python script to fill nulls for non-umg prod file
 
 fill_nulls_non_umg = BashOperator(
         task_id ='fill_nulls_non_umg',
-        bash_command='python /home/airflow/gcs/dags/app/prod_fill_na.py /home/airflow/gcs/data/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv /home/airflow/gcs/data/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}' ,
+        bash_command='python /home/airflow/gcs/dags/app/qa_fill_na.py /home/airflow/gcs/data/qa_apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv /home/airflow/gcs/data/qa_apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}' ,
         dag=dag
   )
 
@@ -757,7 +757,7 @@ lzo compresses the umg prod file
 
 lzo_convert = BashOperator(
         task_id='lzo_convert',
-        bash_command="lzop -1 /home/airflow/gcs/data/apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
+        bash_command="lzop -1 /home/airflow/gcs/data/qa_apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
         dag = dag
 )
 
@@ -767,7 +767,7 @@ lzo compresses the non-umg prod file
 
 lzo_convert_non_umg= BashOperator(
         task_id='lzo_convert_non_umg',
-        bash_command="lzop -1 /home/airflow/gcs/data/apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
+        bash_command="lzop -1 /home/airflow/gcs/data/qa_apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
         dag = dag
 )
 
@@ -777,7 +777,7 @@ uploads lzo files back to GCS
 
 lzo_upload = BashOperator(
         task_id='lzo_upload',
-        bash_command="gsutil cp /home/airflow/gcs/data/apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.lzo  gs://umg-comm-tech-dev/data/apollo/prod/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/",
+        bash_command="gsutil cp /home/airflow/gcs/data/qa_apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.lzo  gs://umg-comm-tech-dev/data/apollo/QA/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/",
         dag = dag
 )
 
@@ -787,7 +787,7 @@ removes files on worker
 
 remove_files_worker = BashOperator(
         task_id='remove_files_worker',
-        bash_command="rm -f /home/airflow/gcs/data/*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.lzo /home/airflow/gcs/data/apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv /home/airflow/gcs/data/apollo_export_non_umg_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv /home/airflow/gcs/data/apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}* /home/airflow/gcs/data/apollo_export_non_umg_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*",
+        bash_command="rm -f /home/airflow/gcs/data/*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.lzo /home/airflow/gcs/data/qa_apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv /home/airflow/gcs/data/qa_apollo_export_non_umg_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv /home/airflow/gcs/data/qa_apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}* /home/airflow/gcs/data/qa_apollo_export_non_umg_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*",
         dag = dag
 )
 
@@ -798,7 +798,7 @@ removes original csv files from GCS
 
 remove_csv_gcs = BashOperator(
         task_id='remove_files_gcs',
-        bash_command="gsutil rm gs://umg-comm-tech-dev/data/apollo/prod/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/*apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv",
+        bash_command="gsutil rm gs://umg-comm-tech-dev/data/apollo/QA/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}/*apollo_export_*{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}*.csv",
         dag = dag
 )
 
@@ -808,7 +808,7 @@ checks if folder size for execution date is abover threshold
 
 check_gcs_size = BashOperator(
         task_id='check_gcs_size',
-        bash_command="python /home/airflow/gcs/dags/app/prod_check_gcs_size.py {{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
+        bash_command="python /home/airflow/gcs/dags/app/qa_check_gcs_size.py {{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}",
         dag = dag
 )
 
@@ -844,11 +844,11 @@ export_to_s3 = PythonOperator(
     provide_context=True,
     templates_dict={
         'bucket': 'umg-ers-analytics',
-        'key': 'qubole/user-data/pitched/optimize/prod/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}',
+        'key': 'qubole/user-data/pitched/optimize/qa/date_id={{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}',
         'local_dir': '/home/airflow/gcs/data',
         'files': [
-          'apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.lzo',
-          'apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.lzo'],
+          'qa_apollo_export_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.lzo',
+          'qa_apollo_export_non_umg_{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.lzo'],
     },
     dag=dag
 )

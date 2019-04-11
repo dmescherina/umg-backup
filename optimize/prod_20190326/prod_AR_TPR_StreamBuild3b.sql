@@ -14,6 +14,6 @@ LEFT OUTER JOIN (
     source_uri) p3
 ON
   b.stream_date = p3.stream_date
-  AND b.source_uri = p3.source_uri
+  AND REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(p3.source_uri,r'playlist:(.*)')
 WHERE
   streams > 0.1*avgstreams

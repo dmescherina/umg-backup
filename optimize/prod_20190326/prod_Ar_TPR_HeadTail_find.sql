@@ -10,7 +10,7 @@ FROM
 JOIN
   `umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_Slope` ps
 ON
-  b.source_uri=ps.source_uri
+  REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)')=REGEXP_EXTRACT(ps.source_uri,r'playlist:(.*)')
   AND b.testposition =ps.testposition
   AND b.httype = ps.httype
   AND b.stream_date=ps.stream_date

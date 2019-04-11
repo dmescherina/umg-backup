@@ -13,14 +13,14 @@ FROM
 INNER JOIN
   `umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_stdev_estimates` ps
 ON
-  b.source_uri=ps.source_uri
+  REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)')=REGEXP_EXTRACT(ps.source_uri,r'playlist:(.*)')
   AND b.testposition =ps.testposition
   AND b.httype = ps.httype
   AND b.stream_date=ps.stream_date
 INNER JOIN
   `umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_mean_estimates` pm
 ON
-  b.source_uri=pm.source_uri
+  REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)')=REGEXP_EXTRACT(pm.source_uri,r'playlist:(.*)')
   AND b.testposition =pm.testposition
   AND b.httype = pm.httype
   AND b.stream_date=pm.stream_date

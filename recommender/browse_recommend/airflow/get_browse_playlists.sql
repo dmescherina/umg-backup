@@ -5,7 +5,7 @@ SELECT
   playlist_uri,
   playlist_name
 FROM
-  `umg-tools.metadata.spotify_playlist_browse`
+  `umg-alpha.spotify.spotify_playlist_browse`
 WHERE
   report_date = DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
   AND owner_id = "spotify"

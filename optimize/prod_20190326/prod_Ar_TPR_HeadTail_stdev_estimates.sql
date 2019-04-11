@@ -13,7 +13,7 @@ FROM
 INNER JOIN
   `umg-comm-tech-dev.Optimize.Ar_TPR_HeadTail_mean_estimates` pm
 ON
-  b.source_uri=pm.source_uri
+  REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)')=REGEXP_EXTRACT(pm.source_uri,r'playlist:(.*)')
   AND b.testposition =pm.testposition
   AND b.httype = pm.httype
   AND b.stream_date=pm.stream_date
@@ -35,7 +35,7 @@ JOIN (
   HAVING
     COUNT(*) > 1 ) t
 ON
-  b.source_uri=t.source_uri
+  REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)')=REGEXP_EXTRACT(t.source_uri,r'playlist:(.*)')
   AND b.testposition =t.testposition
   AND b.httype = t.httype
   AND b.stream_date=t.stream_date

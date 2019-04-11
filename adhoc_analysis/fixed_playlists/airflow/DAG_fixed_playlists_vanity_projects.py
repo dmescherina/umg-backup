@@ -49,30 +49,6 @@ mellow_metal_deezer = BigQueryOperator(
   dag = dag
   )
 
-### Chill, calm, come on down stats from Spotify
-
-come_on_down_spotify = BigQueryOperator(
-  task_id='come_on_down_spotify',
-  use_legacy_sql=False,
-  allow_large_results=True,
-  bql='/sql/come_on_down_spotify.sql',
-  write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists.come_on_down_stats',
-  dag = dag
-  )
-
-### Chill, calm, come on down stats from Spotify
-
-come_on_down_deezer = BigQueryOperator(
-  task_id='come_on_down_deezer',
-  use_legacy_sql=False,
-  allow_large_results=True,
-  bql='/sql/come_on_down_deezer.sql',
-  write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists.come_on_down_stats_deezer',
-  dag = dag
-  )
-
 
 ### 90s Rap stats from Spotify
 
@@ -86,7 +62,7 @@ nineties_rap_spotify = BigQueryOperator(
   dag = dag
   )
 
-### 90s Rap stats from Spotify
+### 90s Rap stats from Deezer
 
 nineties_rap_deezer = BigQueryOperator(
   task_id='nineties_rap_deezer',
@@ -98,15 +74,4 @@ nineties_rap_deezer = BigQueryOperator(
   dag = dag
   )
 
-### Relaxing Dog Music stats from Spotify
-
-consumption_data = BigQueryOperator(
-  task_id='consumption_data',
-  use_legacy_sql=False,
-  allow_large_results=True,
-  bql='/sql/consumption_data.sql',
-  write_disposition='WRITE_TRUNCATE',
-  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists.stats_swift_consumption_raw',
-  dag = dag
-  )
 

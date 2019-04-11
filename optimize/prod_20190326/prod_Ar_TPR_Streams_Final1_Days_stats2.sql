@@ -40,4 +40,4 @@ JOIN (
   GROUP BY
     source_uri) a
 ON
-  f.source_uri = a.source_uri;
+  REGEXP_EXTRACT(f.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(a.source_uri,r'playlist:(.*)');

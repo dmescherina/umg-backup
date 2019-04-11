@@ -2,7 +2,7 @@ select b.source_uri,b.usercluster,streams,users, crank,users/tusers userperc,glo
 rank() over (partition by b.source_uri order by (users/tusers)/globalperc desc) as userindex
 ,rank() over (partition by b.source_uri order by streams/users desc) as ausindex from `umg-comm-tech-dev.Optimize.ar_tpe_playlistclusters_base` b
 join (select source_uri,sum(users) as tusers from `umg-comm-tech-dev.Optimize.ar_tpe_playlistclusters_base` group by source_uri) t
-on b.source_uri = t.source_uri
+on REGEXP_EXTRACT(b.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(t.source_uri,r'playlist:(.*)')
 join
 (select usercluster,sum(users)/gtusers globalperc
 from `umg-comm-tech-dev.Optimize.ar_tpe_playlistclusters_base` b

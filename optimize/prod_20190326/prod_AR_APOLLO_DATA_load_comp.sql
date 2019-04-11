@@ -57,7 +57,7 @@ ON
 JOIN
   `umg-partner.spotify.playlist_history` d
 ON
-  t.playlist_uri = d.playlist_uri
+  REGEXP_EXTRACT(t.playlist_uri,r'playlist:(.*)') = d.playlist_id
 JOIN
   `umg-comm-tech-dev.Optimize.ar_apollo_owner_lkup` p
 ON

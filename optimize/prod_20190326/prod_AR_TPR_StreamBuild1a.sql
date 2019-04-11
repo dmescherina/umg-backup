@@ -31,7 +31,7 @@ FROM (
   INNER JOIN
     `umg-comm-tech-dev.Optimize.ar_tpr_seed_uris`  d
   ON
-    v.source_uri = d.new_source_uri
+    REGEXP_EXTRACT(v.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(d.new_source_uri,r'playlist:(.*)')
   JOIN
     `umg-partner.spotify.spotify_track_metadata`  t
   ON
@@ -61,7 +61,7 @@ JOIN
   `umg-comm-tech-dev.Optimize.AR_TPR_UserReturning`  re
 ON
   e.customer_id = re.customer_id
-  AND e.source_uri = re.source_uri
+  AND REGEXP_EXTRACT(e.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(re.source_uri,r'playlist:(.*)')
 WHERE
   srank = 1
 GROUP BY
