@@ -1,8 +1,8 @@
 SELECT
   upc,
-  MAX(pl.release_date),
-  MAX(pl.release_title),
-  MAX(pl.playlist_owner),
+  MAX(pl.release_date) AS release_date,
+  MAX(pl.release_title) AS release_title,
+  MAX(pl.playlist_owner) AS playlist_owner,
   sub_account_name,
   transaction_source,
   EXTRACT(year
@@ -20,7 +20,8 @@ LEFT JOIN
 USING
   (upc)
 WHERE
-  sub_account_name IN ('7 Digital',
+  transaction_date > "2017-01-01"
+  AND sub_account_name IN ('7 Digital',
     '7digital Limited',
     'Apple',
     'iTunes',

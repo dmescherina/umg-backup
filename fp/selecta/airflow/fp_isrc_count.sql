@@ -10,7 +10,7 @@ WHERE
   SELECT
     isrc
   FROM
-    `umg-comm-tech-dev.fixed_playlists_data.data_iteration1`
+    `umg-comm-tech-dev.fixed_playlists_selecta.data_iteration1`
   GROUP BY
     isrc)
   AND upc IN (
