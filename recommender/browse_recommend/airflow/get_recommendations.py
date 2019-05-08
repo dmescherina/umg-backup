@@ -14,7 +14,7 @@ def get_recommendations():
 
     storage_client = storage.Client()
     bucket = storage_client.get_bucket('umg-comm-tech-dev')
-    model_bucket='recommender/model/model_20190318.pkl'
+    model_bucket='recommender/model/model_latest.pkl'
     model_local='model.pkl'
     blob = bucket.blob(model_bucket)
     blob.download_to_filename(model_local)

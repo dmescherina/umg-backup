@@ -95,6 +95,13 @@ concatenate_model_data = BashOperator(
   dag=dag
   )
 
+### Update Pandas to the latest version
+update_pandas = BashOperator(
+        task_id ='update_pandas',
+        bash_command='sudo pip3 install --upgrade pandas',
+        dag=dag
+  )
+
 ### Retrain the model based on the new data
 retrain_model = BashOperator(
   task_id ='retrain_model',
@@ -173,5 +180,5 @@ transfer_new_meta = BashOperator(
 
 
 ### Task dependencies
-get_playlists >> get_missing_browse_playlists >> get_isrc_meta >> model_data_to_gcs >> concatenate_model_data >> retrain_model >> transfer_old_model >> transfer_new_model
+get_playlists >> get_missing_browse_playlists >> get_isrc_meta >> model_data_to_gcs >> concatenate_model_data >> update_pandas >> retrain_model >> transfer_old_model >> transfer_new_model
 get_isrc_meta >> get_epf_meta >> meta_data_to_gcs >> download_meta_data >> create_new_meta >> transfer_old_meta >> transfer_new_meta

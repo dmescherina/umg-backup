@@ -138,6 +138,13 @@ get_browse_playlists = BashOperator(
 #        dag=dag
 #  )
 
+### Update Pandas to the latest version
+update_pandas = BashOperator(
+        task_id ='update_pandas',
+        bash_command='sudo pip3 install --upgrade pandas',
+        dag=dag
+  )
+
 ### Produce recommendations, concatenate them together and save them as a CSV in the bucket
 get_recommendations = BashOperator(
         task_id ='get_recommendations',
@@ -158,5 +165,5 @@ remove_files_worker = BashOperator(
 )
 
 ### Task dependencies
-gather_playlists >> pl_listen_stats >> playlists_to_gcs >> stats_to_gcs >> download_playlists >> download_data >> get_browse_playlists >> get_recommendations >> transfer_output >> remove_files_worker
+gather_playlists >> pl_listen_stats >> playlists_to_gcs >> stats_to_gcs >> download_playlists >> download_data >> get_browse_playlists >> update_pandas >> get_recommendations >> transfer_output >> remove_files_worker
 
