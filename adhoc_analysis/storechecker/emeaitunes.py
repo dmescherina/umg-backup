@@ -42,7 +42,7 @@ default_args = {
 
 dag = DAG('itunes_store_checker_emea',
   description = 'pulling itunes storechecker data into BQ for EMEA region',
-  schedule_interval='25 11 * * *',
+  schedule_interval='30 12 * * *',
   max_active_runs=3,
   default_args=default_args)
 

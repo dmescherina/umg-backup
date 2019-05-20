@@ -3,7 +3,19 @@ SELECT
   MAX(pl.release_date) AS release_date,
   MAX(pl.release_title) AS release_title,
   MAX(pl.playlist_owner) AS playlist_owner,
-  sub_account_name,
+  CASE
+    WHEN sub_account_name ='7 Digital' THEN '7 Digital'
+    WHEN sub_account_name = '7digital Limited' THEN '7 Digital'
+    WHEN sub_account_name = 'Apple' THEN 'Apple'
+    WHEN sub_account_name = 'iTunes' THEN 'iTunes'
+    WHEN sub_account_name = 'Amazon' THEN 'Amazon'
+    WHEN sub_account_name = 'Deezer' THEN 'Deezer'
+    WHEN sub_account_name = 'Spotify' THEN 'Spotify'
+    WHEN sub_account_name = 'YouTube' THEN 'YouTube'
+    WHEN sub_account_name = 'Google' THEN 'Google'
+    WHEN sub_account_name = 'Napster by Rhapsody' THEN 'Napster'
+    ELSE 'Other Partners'
+  END AS sub_account_name,
   transaction_source,
   EXTRACT(year
   FROM
@@ -16,21 +28,11 @@ SELECT
 FROM
   `umg-comm-tech-dev.fixed_playlists_data.playlists_list` pl
 LEFT JOIN
-  `umg-swift.consumption.combined_transactions` ct
+  `umg-edw.consumption.combined_transactions` ct
 USING
   (upc)
 WHERE
   transaction_date > "2017-01-01"
-  AND sub_account_name IN ('7 Digital',
-    '7digital Limited',
-    'Apple',
-    'iTunes',
-    'Amazon',
-    'Deezer',
-    'Spotify',
-    'YouTube',
-    'Google',
-    'Napster by Rhapsody')
 GROUP BY
   1,
   5,

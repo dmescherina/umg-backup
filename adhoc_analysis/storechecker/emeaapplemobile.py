@@ -43,7 +43,7 @@ default_args = {
 
 dag = DAG('apple_store_checker_mobile_emea',
   description = 'pulling apple music mobile storechecker data into airflow for EMEA region',
-  schedule_interval='25 11 * * *',
+  schedule_interval='30 12 * * *',
   max_active_runs=3,
   catchup=False,
   default_args=default_args)
