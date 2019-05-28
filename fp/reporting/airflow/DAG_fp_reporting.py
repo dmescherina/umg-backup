@@ -76,6 +76,30 @@ deezer_data = BigQueryOperator(
   dag = dag
   )
 
+## Getting Amazon Prime streaming data
+
+amazon_prime_data = BigQueryOperator(
+  task_id='amazon_prime_data',
+  use_legacy_sql=False,
+  allow_large_results=True,
+  bql='/sql/fp_amazon_prime.sql',
+  write_disposition='WRITE_APPEND',
+  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists_data.streaming',
+  dag = dag
+  )
+
+## Getting Amazon Unlimited streaming data
+
+amazon_unlimited_data = BigQueryOperator(
+  task_id='amazon_unlimited_data',
+  use_legacy_sql=False,
+  allow_large_results=True,
+  bql='/sql/fp_amazon_unlimited.sql',
+  write_disposition='WRITE_APPEND',
+  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists_data.streaming',
+  dag = dag
+  )
+
 ## Adding metadata
 
 metadata = BigQueryOperator(
@@ -85,6 +109,18 @@ metadata = BigQueryOperator(
   bql='/sql/streaming_with_meta.sql',
   write_disposition='WRITE_TRUNCATE',
   destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists_data.streaming_with_meta',
+  dag = dag
+  )
+
+## Check if playlists are delivered to all partners
+
+check_playlists_partners = BigQueryOperator(
+  task_id='metadata',
+  use_legacy_sql=False,
+  allow_large_results=True,
+  bql='/sql/check_playlists_partners.sql',
+  write_disposition='WRITE_TRUNCATE',
+  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists_data.check_playlists_partners',
   dag = dag
   )
 
@@ -207,6 +243,9 @@ playlists_to_gcs >> download_from_gcs >> concat_playlists >> load_playlists_bq
 #load_playlists_bq >> deezer_data
 #load_playlists_bq >> consumption_data
 
-spotify_data >> metadata
-apple_data >> metadata
-deezer_data >> metadata
+amazon_prime_data >> metadata >> check_playlists_partners
+amazon_unlimited_data >> metadata >> check_playlists_partners
+spotify_data >> metadata >> check_playlists_partners
+apple_data >> metadata >> check_playlists_partners
+deezer_data >> metadata >> check_playlists_partners
+

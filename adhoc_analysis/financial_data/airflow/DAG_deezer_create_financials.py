@@ -7,7 +7,7 @@ from airflow import DAG
 
 from airflow.contrib.operators.bigquery_operator import BigQueryOperator
 
-start_date = datetime(2019, 4, 30 , 0, 0, 0, tzinfo=pytz.utc)
+start_date = datetime(2019, 4, 30, 0, 0, 0, tzinfo=pytz.utc)
 
 default_args = {
     'owner': 'airflow',
@@ -77,6 +77,7 @@ create_streams_napster = BigQueryOperator(
   destination_dataset_table = 'umg-comm-tech-dev.deezer.create_streams',
   dag = dag
     )
+
 
 #Task dependencies
 
