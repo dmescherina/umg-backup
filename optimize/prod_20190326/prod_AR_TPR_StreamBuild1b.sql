@@ -4,6 +4,6 @@ SELECT
 FROM
   `umg-comm-tech-dev.Optimize.AR_TPR_StreamBuild1a` a
 JOIN
-  `umg-data-science.spotify.playlist_uris` b
+  `umg-alpha.spotify.playlist_uris` b
 ON
   REGEXP_EXTRACT(a.source_uri,'playlist.(.*)') = b.playlist_id

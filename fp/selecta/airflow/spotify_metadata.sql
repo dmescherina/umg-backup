@@ -13,10 +13,10 @@ SELECT
 FROM
   `umg-partner.spotify.spotify_track_metadata` stm
 LEFT JOIN
-  `umg-data-science.spotify_metadata.tracks` t
+  `umg-alpha.spotify_metadata.tracks` t
   ON stm.track_isrc = t.isrc
 LEFT JOIN
-  `umg-data-science.spotify_metadata.spotify_artists` sa
+  `umg-alpha.spotify_metadata.spotify_artists` sa
 ON
   t.first_artist_spotify_id = sa.spotify_id
 WHERE

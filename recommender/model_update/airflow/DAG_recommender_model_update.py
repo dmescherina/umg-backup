@@ -65,7 +65,7 @@ get_isrc_meta = BigQueryOperator(
 model_data_to_gcs = bigquery_to_gcs.BigQueryToCloudStorageOperator(
   task_id='model_data_to_gcs',
   source_project_dataset_table='umg-comm-tech-dev.recommender.model_data_with_meta',
-  destination_cloud_storage_uris=['gs://us-central1-comm-tech-flow--f436f865-bucket/data/recommender_data/date_id={{ macros.ds_format(macros.ds_add( ds, 0), \'%Y-%m-%d\', \'%Y%m%d\') }}/model_data_{{ macros.ds_format(macros.ds_add( ds, 0), \'%Y-%m-%d\', \'%Y%m%d\') }}-*.csv'],
+  destination_cloud_storage_uris=['gs://us-central1-comm-tech-flow--c62114c2-bucket/data/recommender_data/date_id={{ macros.ds_format(macros.ds_add( ds, 0), \'%Y-%m-%d\', \'%Y%m%d\') }}/model_data_{{ macros.ds_format(macros.ds_add( ds, 0), \'%Y-%m-%d\', \'%Y%m%d\') }}-*.csv'],
   export_format='CSV',
   field_delimiter='\t',
   print_header=False,
