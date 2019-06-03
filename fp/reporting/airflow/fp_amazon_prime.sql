@@ -4,10 +4,10 @@ SELECT
   MAX(pl.release_title) AS release_title,
   MAX(pl.playlist_owner) AS release_owner,
   isrc,
-  country_code AS country,
+  user_country_code AS country,
   stream_date,
-  deezer_source_of_stream as stream_source,
-  COUNT(transaction_time) AS streams,
+  stream_source as stream_source,
+  COUNT(*) AS streams,
   "amazon_prime" AS source
 FROM
   `umg-comm-tech-dev.fixed_playlists_data.playlists_list` pl
