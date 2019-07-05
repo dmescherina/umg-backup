@@ -5,7 +5,7 @@ WITH
   FROM
     `umg-partner.apple_music.streams`
   WHERE
-    (_PARTITIONTIME >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 9 DAY))
+    (_PARTITIONTIME >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
       AND _PARTITIONTIME < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY)))
     AND ifNull(content_owner,
       '') != 'Because Music'),

@@ -7,7 +7,7 @@ from airflow import DAG
 
 from airflow.contrib.operators.bigquery_operator import BigQueryOperator
 
-start_date = datetime(2019, 4, 30, 0, 0, 0, tzinfo=pytz.utc)
+start_date = datetime(2019, 6, 6)
 
 default_args = {
     'owner': 'airflow',

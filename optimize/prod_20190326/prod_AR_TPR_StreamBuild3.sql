@@ -22,10 +22,10 @@ ON
   AND b.isrc = p.isrc
 LEFT JOIN (
   SELECT
-    isrc,
-    MAX(formatted_title) canopustrack
+    r2_isrc AS isrc,
+    MAX(r2_formatted_title) AS canopustrack
   FROM
-    `umg-data-science.canopus.resource_artist`
+    `umg-edw.metadata.canopus_resource_artist`
   GROUP BY
     isrc) c
 ON

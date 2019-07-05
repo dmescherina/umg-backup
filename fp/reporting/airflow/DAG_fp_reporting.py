@@ -24,7 +24,7 @@ args = {
 
 dag = DAG('fixed_playlists_reporting',
   description = 'Consumption and Streaming data generation for Fixed Playlists',
-  schedule_interval='30 7 * * 1', # run weekly on Monday at 7:30am
+  schedule_interval='30 9 * * *', # run daily at 9:30am
   max_active_runs=1,
   default_args=args)
 
@@ -134,8 +134,8 @@ playlists_to_gcs = bigquery_to_gcs.BigQueryToCloudStorageOperator(
     field_delimiter='\t',
     print_header=True,
     bigquery_conn_id='bigquery_default',
-    dag=dag
-)
+    dag=dag)
+
 
 download_from_gcs = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     task_id='download_from_gcs',
@@ -143,21 +143,26 @@ download_from_gcs = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     object= 'data/fixed/playlists_list.csv',
     filename='/home/airflow/gcs/data/fixed/playlists_list.csv',
     bigquery_conn_id='google_cloud_storage_default',
-    dag=dag
+    dag=dag)
 
-)
+download_from_gcs2 = gcs_download_operator.GoogleCloudStorageDownloadOperator(
+    task_id='download_from_gcs2',
+    bucket='umg-comm-tech-dev',
+    object= 'qubole/user-data/pitched/fixed/prod/compilations-{{macros.ds_format(macros.ds_add( ds, 0),\'%Y-%m-%d\',\'%Y-%m-%d\')}}.csv',
+    filename='/home/airflow/gcs/data/fixed/compilations.csv',
+    bigquery_conn_id='google_cloud_storage_default',
+    dag=dag)
 
 ## Concatenating new and old playlists
 
 concat_playlists = BashOperator(
         task_id ='concat_playlists',
-        bash_command='python /home/airflow/gcs/dags/app/concat_playlists.py /home/airflow/gcs/data/fixed/playlists_list.csv /home/airflow/gcs/data/compilations-{{macros.ds_format(macros.ds_add( ds, -1),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv /home/airflow/gcs/data/fixed/all_playlists.csv' ,
-        dag=dag
-  )
+        bash_command='python /home/airflow/gcs/dags/app/concat_playlists.py /home/airflow/gcs/data/fixed/playlists_list.csv /home/airflow/gcs/data/fixed/compilations.csv /home/airflow/gcs/data/fixed/all_playlists.csv' ,
+        dag=dag)
 
 load_playlists_bq = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
     task_id='load_playlists_bq',
-    bucket='us-central1-comm-tech-flow--76694645-bucket',
+    bucket='us-central1-comm-tech-flow--c62114c2-bucket',
     source_objects=['data/fixed/all_playlists.csv'],
     destination_project_dataset_table='umg-comm-tech-dev.fixed_playlists_data.playlists_list',
     schema_fields=[
@@ -233,19 +238,19 @@ load_playlists_bq = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
     write_disposition='WRITE_TRUNCATE',
     bigquery_conn_id='bigquery_default',
     google_cloud_storage_conn_id='google_cloud_storage_default',
-    dag=dag
-)
+    dag=dag)
 
-playlists_to_gcs >> download_from_gcs >> concat_playlists >> load_playlists_bq
 
-#load_playlists_bq >> spotify_data
-#load_playlists_bq >> apple_data
-#load_playlists_bq >> deezer_data
-#load_playlists_bq >> consumption_data
+#Task dependencies
 
-amazon_prime_data >> metadata >> check_playlists_partners
-amazon_unlimited_data >> metadata >> check_playlists_partners
-spotify_data >> metadata >> check_playlists_partners
-apple_data >> metadata >> check_playlists_partners
-deezer_data >> metadata >> check_playlists_partners
-
+playlists_to_gcs >> download_from_gcs >> concat_playlists >> load_playlists_bq >> spotify_data
+load_playlists_bq >> apple_data
+load_playlists_bq >> deezer_data
+load_playlists_bq >> amazon_prime_data
+load_playlists_bq >> amazon_unlimited_data
+download_from_gcs2 >> concat_playlists
+spotify_data >> metadata
+apple_data >> metadata
+deezer_data >> metadata
+amazon_prime_data >> metadata
+amazon_unlimited_data >> metadata

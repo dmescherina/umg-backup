@@ -16,7 +16,7 @@ LEFT JOIN
 USING
   (upc)
 WHERE
-  stream_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 9 DAY)
+  stream_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 DAY)
   AND stream_date < DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY)
 GROUP BY
   upc,

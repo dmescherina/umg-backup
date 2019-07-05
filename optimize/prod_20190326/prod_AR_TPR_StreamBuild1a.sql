@@ -49,10 +49,10 @@ ON
   AND e.track = c.track
 LEFT JOIN (
   SELECT
-    isrc,
-    MAX(formatted_title) title
+    r2_isrc AS isrc,
+    MAX(r2_formatted_title) AS title
   FROM
-    `umg-data-science.canopus.resource_artist` 
+    `umg-edw.metadata.canopus_resource_artist` 
   GROUP BY
     isrc) r
 ON

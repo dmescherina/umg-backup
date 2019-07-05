@@ -14,7 +14,7 @@ SELECT
 FROM
   `umg-alpha.epf.song_label_view` slw
 LEFT JOIN
-  `umg-marketing.metadata.product` p
+  `umg-edw.metadata.mdm_product` p
 USING
   (isrc)
 LEFT JOIN
