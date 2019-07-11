@@ -70,7 +70,7 @@ class Data_prep():
                                        names = ['playlist_uri','isrc','days_on_playlist',
                                                 'playlist_owner','playlist_name','playlist_description'])
         self.playlist_lookup = playlists_data[['playlist_uri', 'playlist_owner', 'playlist_name','playlist_description']].drop_duplicates()  # Only get unique isrcs
-        self.isrc_lookup['isrc'] = self.isrc_lookup.isrc.astype(str)  # Encode as string
+        self.playlist_lookup['playlist_uri'] = self.playlist_lookup.playlist_uri.astype(str)  # Encode as string
         self.playlists = list(np.sort(playlists_data.playlist_uri.unique()))  # Get our unique playlists
         self.isrcs = list(playlists_data.isrc.unique())  # Get our unique isrcs
         self.dop = list(playlists_data.days_on_playlist)  # days on playlist
