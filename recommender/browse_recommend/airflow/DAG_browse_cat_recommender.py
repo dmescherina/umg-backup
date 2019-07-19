@@ -27,7 +27,7 @@ args = {
 
 dag = DAG('browse_categories_recommendations_prerun',
   description = 'Preprocessing recommendations for territories and their browse categories most local and relevant playlists',
-  schedule_interval='0 0 5 * *', # run on 5th of every month - for testing purposes
+  schedule_interval='0 0 12 * *', # run on 12th of every month - to accomodate model rerun and testing
   max_active_runs=1,
   default_args=args)
 
@@ -82,7 +82,7 @@ download_playlists = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     task_id='download_playlists',
     bucket='umg-comm-tech-dev',
     object= 'recommender/browse_recommendations/playlists_list.csv',
-    filename='/home/airflow/gcs/data/playlists_list.csv',
+    filename='/home/airflow/gcs/data/browse_recommend/playlists_list.csv',
     bigquery_conn_id='google_cloud_storage_default',
     dag=dag
 
@@ -92,7 +92,7 @@ download_data = gcs_download_operator.GoogleCloudStorageDownloadOperator(
     task_id='download_data',
     bucket='umg-comm-tech-dev',
     object= 'recommender/browse_recommendations/playlists_data.csv',
-    filename='/home/airflow/gcs/data/playlists_data.csv',
+    filename='/home/airflow/gcs/data/browse_recommend/playlists_data.csv',
     bigquery_conn_id='google_cloud_storage_default',
     dag=dag
 
@@ -117,7 +117,7 @@ download_data = gcs_download_operator.GoogleCloudStorageDownloadOperator(
 ### Get no more than first 10 for each territory-category combination
 get_browse_playlists = BashOperator(
         task_id ='get_browse_playlists',
-        bash_command='python /home/airflow/gcs/dags/app/browse_recommend.py /home/airflow/gcs/data/playlists_list.csv /home/airflow/gcs/data/playlists_data.csv /home/airflow/gcs/data/browse_playlists.csv',
+        bash_command='python /home/airflow/gcs/dags/app/browse_recommend.py /home/airflow/gcs/data/browse_recommend/playlists_list.csv /home/airflow/gcs/data/browse_recommend/playlists_data.csv /home/airflow/gcs/data/browse_recommend/browse_playlists.csv',
         dag=dag
   )
 
@@ -148,19 +148,19 @@ update_pandas = BashOperator(
 ### Produce recommendations, concatenate them together and save them as a CSV in the bucket
 get_recommendations = BashOperator(
         task_id ='get_recommendations',
-        bash_command='python /home/airflow/gcs/dags/app/get_recommendations.py /home/airflow/gcs/data/browse_playlists.csv /home/airflow/gcs/data/browse_recommendations.csv',
+        bash_command='python /home/airflow/gcs/dags/app/get_recommendations.py /home/airflow/gcs/data/browse_recommend/browse_playlists.csv /home/airflow/gcs/data/browse_recommend/browse_recommendations.csv',
         dag=dag
   )
 
 transfer_output = BashOperator(
         task_id='transfer_output',
-        bash_command="gsutil cp /home/airflow/gcs/data/browse_recommendations.csv  gs://umg-comm-tech-dev/recommender/browse_recommendations/browse_recommendations_{{macros.ds_format(macros.ds_add( ds, 30),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv",
+        bash_command="gsutil cp /home/airflow/gcs/data/browse_recommend/browse_recommendations.csv  gs://umg-comm-tech-dev/recommender/browse_recommendations/browse_recommendations_{{macros.ds_format(macros.ds_add( ds, 30),\'%Y-%m-%d\',\'%Y%m%d\')}}.csv",
         dag = dag
 )
 
 remove_files_worker = BashOperator(
         task_id='remove_files_worker',
-        bash_command="rm -f /home/airflow/gcs/data/browse_recommendations.csv /home/airflow/gcs/data/playlists_list.csv /home/airflow/gcs/data/playlists_data.csv /home/airflow/gcs/data/browse_playlists.csv",
+        bash_command="rm -f /home/airflow/gcs/data/browse_recommend/browse_recommendations.csv /home/airflow/gcs/data/browse_recommend/playlists_list.csv /home/airflow/gcs/data/browse_recommend/playlists_data.csv /home/airflow/gcs/data/browse_recommend/browse_playlists.csv",
         dag = dag
 )
 

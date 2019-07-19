@@ -37,6 +37,6 @@ WHERE
 GROUP BY
   playlist_uri
 HAVING
-  nartists > 2
-  AND nalbums > 2
+  nartists > 3
+  AND nalbums > 3
   AND maxpos<=500

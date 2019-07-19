@@ -48,8 +48,8 @@ def get_recommendations():
                metadata['original_release_date'][x[0]], metadata['genre_name'][x[0]], metadata['parent_genre_name'][x[0]], 
                x[2], x[3], x[4]) for x in list(recommendations)]
 
-    all_columns = ['isrc','score','artist','title','label_studio','major_label','genre_name',
-               'parent_genre_name','original_release_date','seed_playlist_uri','territory','category']
+    all_columns = ['isrc','score','artist','title','major_label','label_studio','original_release_date','genre_name',
+               'parent_genre_name','seed_playlist_uri','territory','category']
     rec_df = pd.DataFrame(recs_final, columns = all_columns)
     rec_df_umg = rec_df[rec_df.major_label=='UMG']
 

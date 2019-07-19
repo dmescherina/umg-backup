@@ -133,7 +133,7 @@ class Recommender_core():
     def recommend(self,isrc, playlist_isrc_matrix, N=10):
         recommend_start_time = time.time()
         '''Returns a list of tuple (item_index, score, target playlist) of recommended tracks'''
-        isrc_index = self.isrcs.index(isrc) # get the index of the target playlist
+        isrc_index = self.isrcs.index(isrc) # get the index of the target isrc
         recommendations = self.model.recommend(isrc_index, playlist_isrc_matrix,N=N) # returns list of tuples (item_index, score)
         isrc_col = [isrc] * len(recommendations)
         playlists = [x[0] for x in recommendations]
@@ -171,8 +171,8 @@ class Recommender_core():
         new_dop = list(new_playlist_data.days_on_playlist)
         new_rows = new_playlist_data.playlist_uri.astype(pd.api.types.CategoricalDtype(categories=new_playlist_data.playlist_uri.unique())).cat.codes
         new_cols = new_playlist_data.isrc.astype(pd.api.types.CategoricalDtype(categories=self.isrcs)).cat.codes
-        confidence = sparse.csr_matrix((new_dop, (new_rows, new_cols)), shape=(user_size, item_size))
-        confidence = (confidence * self.alpha).astype('double')
+        confidence_r = sparse.csr_matrix((new_dop, (new_rows, new_cols)), shape=(user_size, item_size))
+        confidence = (confidence_r * self.alpha).astype('double')
 
         logging.info("Making the sparce matrix for the playlist data took " + str(round(time.time() - recommend_outofmodel_start, 4)) + " seconds.")
     # Compute the optimal latent features vector
