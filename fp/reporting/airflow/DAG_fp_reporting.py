@@ -115,7 +115,7 @@ metadata = BigQueryOperator(
 ## Check if playlists are delivered to all partners
 
 check_playlists_partners = BigQueryOperator(
-  task_id='metadata',
+  task_id='check_playlists_partners',
   use_legacy_sql=False,
   allow_large_results=True,
   bql='/sql/check_playlists_partners.sql',
@@ -254,3 +254,5 @@ apple_data >> metadata
 deezer_data >> metadata
 amazon_prime_data >> metadata
 amazon_unlimited_data >> metadata
+consumption_data >> check_playlists_partners
+metadata >> check_playlists_partners
