@@ -33,7 +33,7 @@ FROM (
   ON
     REGEXP_EXTRACT(v.source_uri,r'playlist:(.*)') = REGEXP_EXTRACT(d.new_source_uri,r'playlist:(.*)')
   JOIN
-    `umg-partner.spotify.spotify_track_metadata`  t
+    `umg-edw.spotify.spotify_track_metadata`  t
   ON
      v.track_id = t.partner_track_id
 

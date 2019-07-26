@@ -3,17 +3,17 @@ WITH
   SELECT
     *
   FROM
-    `umg-partner.apple_music.streams`
+    `umg-edw.apple_music.streams`
   WHERE
-    (_PARTITIONTIME >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
-      AND _PARTITIONTIME < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY)))
+    (stream_date >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
+      AND stream_date < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY)))
     AND ifNull(content_owner,
       '') != 'Because Music'),
   track AS (
   SELECT
     *
   FROM
-    `umg-partner.apple_music.daily_content_metadata`),
+    `umg-edw.apple_music.content_metadata`),
   pl AS (
   SELECT
     upc,

@@ -14,7 +14,7 @@ SELECT
 FROM
   `umg-comm-tech-dev.fixed_playlists_data.streaming` s
 LEFT JOIN
-  `umg-partner.spotify.spotify_track_metadata` m
+  `umg-edw.spotify.spotify_track_metadata` m
 ON
   s.isrc = m.track_isrc
 GROUP BY

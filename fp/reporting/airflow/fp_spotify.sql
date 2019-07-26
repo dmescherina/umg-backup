@@ -12,7 +12,7 @@ SELECT
 FROM
   `umg-comm-tech-dev.fixed_playlists_data.playlists_list` pl
 LEFT JOIN
-  `umg-partner.spotify.streams` s
+  `umg-edw.spotify.streams` s
 USING
   (upc)
 WHERE

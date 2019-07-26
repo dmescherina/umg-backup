@@ -8,7 +8,7 @@ customer_id,
 FROM
   `umg-comm-tech-dev.Optimize.AR_TPR_StreamExport` b
 LEFT JOIN
-  `umg-partner.spotify.spotify_track_metadata` t
+  `umg-edw.spotify.spotify_track_metadata` t
 ON
   b.track_id = t.partner_track_id
 

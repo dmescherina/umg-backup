@@ -27,7 +27,7 @@ JOIN (
 ON
   s.user_id = v.user_id
 LEFT JOIN
-  `umg-partner.spotify.spotify_track_metadata` t
+  `umg-edw.spotify.spotify_track_metadata` t
 ON
 v.partner_track_id = t.partner_track_id
 WHERE
