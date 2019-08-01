@@ -5,8 +5,8 @@ WITH
   FROM
     `umg-edw.apple_music.streams`
   WHERE
-    (stream_date >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
-      AND stream_date < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY)))
+    (stream_datetime >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
+      AND stream_datetime < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY))
     AND ifNull(content_owner,
       '') != 'Because Music'),
   track AS (
