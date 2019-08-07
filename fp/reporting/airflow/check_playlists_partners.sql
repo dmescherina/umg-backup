@@ -58,6 +58,18 @@ IF
     GROUP BY
       upc),
     'Y',
-    'N') AS in_amazon_data
+    'N') AS in_amazon_data,
+IF
+  (l.upc IN (
+    SELECT
+      upc
+    FROM
+      `umg-comm-tech-dev.fixed_playlists_data.streaming`
+    WHERE
+      source IN ('napster')
+    GROUP BY
+      upc),
+    'Y',
+    'N') AS in_napster_data
 FROM
   `umg-comm-tech-dev.fixed_playlists_data.playlists_list` l

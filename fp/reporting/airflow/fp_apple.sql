@@ -8,7 +8,7 @@ WITH
     (stream_datetime >= TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY))
       AND stream_datetime < TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 0 DAY))
     AND ifNull(content_owner,
-      '') != 'Because Music'),
+      '') != 'Because Music')),
   track AS (
   SELECT
     *

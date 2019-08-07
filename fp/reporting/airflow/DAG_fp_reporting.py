@@ -100,6 +100,18 @@ amazon_unlimited_data = BigQueryOperator(
   dag = dag
   )
 
+## Getting Napster streaming data
+
+napster_data = BigQueryOperator(
+  task_id='napster_data',
+  use_legacy_sql=False,
+  allow_large_results=True,
+  bql='/sql/fp_napster.sql',
+  write_disposition='WRITE_APPEND',
+  destination_dataset_table = 'umg-comm-tech-dev.fixed_playlists_data.streaming',
+  dag = dag
+  )
+
 ## Adding metadata
 
 metadata = BigQueryOperator(
@@ -248,11 +260,13 @@ load_playlists_bq >> apple_data
 load_playlists_bq >> deezer_data
 load_playlists_bq >> amazon_prime_data
 load_playlists_bq >> amazon_unlimited_data
+load_playlists_bq >> napster_data
 download_from_gcs2 >> concat_playlists
 spotify_data >> metadata
 apple_data >> metadata
 deezer_data >> metadata
 amazon_prime_data >> metadata
 amazon_unlimited_data >> metadata
+napster_data >> metadata
 consumption_data >> check_playlists_partners
 metadata >> check_playlists_partners
