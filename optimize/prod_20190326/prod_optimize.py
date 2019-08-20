@@ -45,7 +45,7 @@ default_args = {
 
 dag = DAG('Pitched_optimize',
   description = 'PROD version of PITCHED Optimize data creation',
-  schedule_interval='0 7 * * *',
+  schedule_interval='0 3 * * *',
   max_active_runs=1,
   default_args=default_args)
 '''
